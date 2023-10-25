@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo 5 - PC 1</title>
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.25rem;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+        }
+
+        main {
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+            /* espacamento interno */
+        }
+
+        section {
+            width: 100%;
+            margin: 0 auto;
+            padding: 1rem;
+            margin-bottom: 0.625rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.75rem;
+            margin-top: auto;
+            color: #810000;
+        }
+
+        .bnt
+        {
+            text-align: center;
+        }
+
+        .questao {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #numQuestao {
+            display: block;
+            background: #9c0000;
+            padding: 4px 10px 2px 10px;
+            border-radius: 50%;
+        }
+
+        #pergunta {
+            margin-left: 1rem;
+        }
+
+        /* article que acomoda a questao completa */
+        .questoes {
+            padding: 1.5rem;
+            border: 1px solid #ffffff;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+        }
+
+        .questoes ol li {
+            display: block;
+            margin: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .questoes ol li:hover {
+            background: #880000de;
+            cursor: pointer;
+        }
+
+        .bloqueado {
+            display: none;
+        }
+
+        .bloqueado li:hover {
+            display: none;
+        }
+
+        #instrucoes {
+            background: rgb(0, 0, 0);
+            color: #b40000;
+            padding: 0.625rem;
+            border-radius: 8px;
+
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+            animation: piscar .75s infinite alternate;
+        }
+
+        #aviso {
+            color: #000000;
+        }
+        #centro{
+            margin-top: 30%;
+        }
+        .btn{
+            color: black;
+            text-align: center;
+
+        }
+
+
+        /* Animar o input */
+        @keyframes piscar {
+            0% {
+                filter: drop-shadow(0 0 15px #bd0000);
+                -webkit-filter: drop-shadow(0 0 15px #7e0000);
+                -moz-filter: drop-shadow(0 0 15px #5a0000);
+                -o-filter: drop-shadow(0 0 15px #5a0000);
+                -ms-filter: drop-shadow(0 0 15px #a70b0b);
+            }
+
+            100% {}
+        }
+
+        .animar {
+            animation: piscar .75s infinite alternate;
+        }
+
+        .aparecer {
+            animation: aparecer .7s infinite alternate;
+        }
+
+        @keyframes aparecer {
+            0% {
+                opacity: 0
+            }
+
+            100% {
+                opacity: 1
+            }
+        }
+
+        a:link {
+            color: #00da0b;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: #0d9b00;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="centro">
+    <h1>Parabéns, Você Venceu!</h1>
+    <p id="startButton" class="btn"><span id="countdown">30</span></p>
+            <article id='aviso'>Questão <span id='numero'></span> de <span id='total'></span></article>
+    </div>
+
+    <script>
+         function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            const startButton = document.getElementById('startButton');
+
+            // Desativar o botão novamente para evitar cliques repetidos
+            startButton.disabled = true;
+
+            // Função para atualizar a contagem regressiva e reativar o botão quando atingir 0
+            function updateCountdown() {
+                let time = parseInt(countdownElement.innerText);
+                if (time > 0) {
+                    time--;
+                    countdownElement.innerText = time;
+                } else {
+                    location.href="index.html"
+                    clearInterval(countdownInterval); // Parar a contagem regressiva quando atingir 0
+                    countdownElement.innerText = '!'; // Exibir uma mensagem
+                    startButton.disabled = false; // Reativar o botão
+                }
+            }
+
+            // Iniciar a contagem regressiva automaticamente
+            const countdownInterval = setInterval(updateCountdown, 500); // Atualizar a cada segundo (1000 milissegundos)
+        }
+
+        // Iniciar a contagem regressiva automaticamente assim que a página for carregada
+        startCountdown();
+
+
+        let titulo = document.querySelector('h1')
+        let instrucoes = document.querySelector('#instrucoes')
+        let aviso = document.querySelector('#aviso')
+        //let respostaEsta = document.querySelector('#respostaEsta')
+        let pontos = 0 // pontos para o placar
+        let placar = 0 // placar
+
+        // PERGUNTA
+        let numQuestao = document.querySelector('#numQuestao')
+        let pergunta = document.querySelector('#pergunta')
+
+        // ALTERNATIVAS
+        let a = document.querySelector('#a')
+        let b = document.querySelector('#b')
+        let c = document.querySelector('#c')
+
+        // article com a class questoes
+        let articleQuestoes = document.querySelector('.questoes')
+        // ol li com as alternativas
+        let alternativas = document.querySelector('#alternativas')
+
+        const q0 = {
+            numQuestao: 0,
+            pergunta: "Pergunta",
+            alternativaA: "Alternativa A",
+            alternativaB: "Alternativa B",
+            alternativaC: "Alternativa C",
+            correta: "0",
+        }
+
+        const q1 = {
+    numQuestao   : 1,
+    pergunta     : "Qual o livro mais vendido no mundo a seguir à Bíblia?",
+    alternativaA : "O Senhor dos Anéis",
+    alternativaB : "Dom Quixote",
+    alternativaC : "O Pequeno Príncipe",
+    correta      : "Dom Quixote",
+}
+
+        // CONSTANTE COM UM ARRAY DE OBJETOS COM TODAS AS QUESTOES
+        const questoes = [q0, q1]
+
+        let numero = document.querySelector('#numero')
+        let total = document.querySelector('#total')
+
+        numero.textContent = q1.numQuestao
+
+        let totalDeQuestoes = (questoes.length) - 1
+        console.log("Total de questões " + totalDeQuestoes)
+        total.textContent = totalDeQuestoes
+
+        // MONTAR A 1a QUESTAO COMPLETA, para iniciar o Quiz
+        numQuestao.textContent = q1.numQuestao
+        pergunta.textContent = q1.pergunta
+        a.textContent = q1.alternativaA
+        b.textContent = q1.alternativaB
+        c.textContent = q1.alternativaC
+
+        // CONFIGURAR O VALUE INICIAL DA 1a QUESTAO COMPLETA
+        a.setAttribute('value', '1A')
+        b.setAttribute('value', '1B')
+        c.setAttribute('value', '1C')
+
+        // PARA MONTAR AS PROXIMAS QUESTOES
+        function proximaQuestao(nQuestao) {
+            numero.textContent = nQuestao
+            numQuestao.textContent = questoes[nQuestao].numQuestao
+            pergunta.textContent = questoes[nQuestao].pergunta
+            a.textContent = questoes[nQuestao].alternativaA
+            b.textContent = questoes[nQuestao].alternativaB
+            c.textContent = questoes[nQuestao].alternativaC
+            a.setAttribute('value', nQuestao + 'A')
+            b.setAttribute('value', nQuestao + 'B')
+            c.setAttribute('value', nQuestao + 'C')
+        }
+
+        function bloquearAlternativas() {
+            a.classList.add('bloqueado')
+            b.classList.add('bloqueado')
+            c.classList.add('bloqueado')
+        }
+
+        function desbloquearAlternativas() {
+            a.classList.remove('bloqueado')
+            b.classList.remove('bloqueado')
+            c.classList.remove('bloqueado')
+        }
+
+        function verificarSeAcertou(nQuestao, resposta) {
+
+            let numeroDaQuestao = nQuestao.value
+            console.log("Questão " + numeroDaQuestao)
+
+            let respostaEscolhida = resposta.textContent
+            //console.log("RespU " + respostaEscolhida)
+
+            let certa = questoes[numeroDaQuestao].correta
+            //console.log("RespC " + certa)
+
+            if (respostaEscolhida == certa) {
+                //console.log("Acertou")
+                //respostaEsta.textContent = "Correta 😊"
+                pontos += 1 // pontos = pontos + 1
+            } else {
+                //console.log("Errou!")
+                //respostaEsta.textContent = "Errada 😢"
+            }
+
+            // atualizar placar
+            placar = pontos
+            instrucoes.textContent = "Resposta Incorreta";
+
+            // bloquear a escolha de opcoes
+            bloquearAlternativas()
+
+            setTimeout(function () {
+                //respostaEsta.textContent = '...'
+                proxima = numeroDaQuestao + 1
+
+                if (pontos>0) {
+                    function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            const startButton = document.getElementById('startButton');
+
+            // Desativar o botão novamente para evitar cliques repetidos
+            startButton.disabled = true;
+
+            // Função para atualizar a contagem regressiva e reativar o botão quando atingir 0
+            function updateCountdown() {
+                let time = parseInt(countdownElement.innerText);
+                if (time > 0) {
+                    time--;
+                    countdownElement.innerText = time;
+                } else {
+                    location.href="forms.html"
+                    clearInterval(countdownInterval); // Parar a contagem regressiva quando atingir 0
+                    countdownElement.innerText = '!'; // Exibir uma mensagem
+                    startButton.disabled = false; // Reativar o botão
+                }
+            }
+
+            // Iniciar a contagem regressiva automaticamente
+            const countdownInterval = setInterval(updateCountdown, 500); // Atualizar a cada segundo (1000 milissegundos)
+        }
+
+        // Iniciar a contagem regressiva automaticamente assim que a página for carregada
+        startCountdown();
+                    console.log('Fim do Jogo!')
+                    fimDoJogo()
+                } else {
+                    function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            const startButton = document.getElementById('startButton');
+
+            // Desativar o botão novamente para evitar cliques repetidos
+            startButton.disabled = true;
+
+            // Função para atualizar a contagem regressiva e reativar o botão quando atingir 0
+            function updateCountdown() {
+                let time = parseInt(countdownElement.innerText);
+                if (time > 0) {
+                    time--;
+                    countdownElement.innerText = time;
+                } else {
+                    location.href="index.html"
+                    clearInterval(countdownInterval); // Parar a contagem regressiva quando atingir 0
+                    countdownElement.innerText = '!'; // Exibir uma mensagem
+                    startButton.disabled = false; // Reativar o botão
+                }
+            }
+
+            // Iniciar a contagem regressiva automaticamente
+            const countdownInterval = setInterval(updateCountdown, 500); // Atualizar a cada segundo (1000 milissegundos)
+        }
+
+        // Iniciar a contagem regressiva automaticamente assim que a página for carregada
+        startCountdown();
+                    fimDoJogoerra()
+                }
+            }, 250)
+            desbloquearAlternativas()
+        }
+
+        function fimDoJogo() {
+            instrucoes.textContent = "A Senha é 1578"
+            
+
+            a.textContent = ""
+            b.textContent = ""
+            c.textContent = ""
+
+            a.setAttribute('value', '0')
+            b.setAttribute('value', '0')
+            c.setAttribute('value', '0')
+
+            // OCULTAR O ARTICLE DA QUESTAO
+            articleQuestoes.style.display = 'none'
+
+            setTimeout(function () {
+                pontos = instrucoes.textContent // zerar placar
+            }, 200000)
+        }
+
+        function fimDoJogoerra(){
+
+            // OCULTAR O ARTICLE DA QUESTAO
+            articleQuestoes.style.display = 'none'
+
+
+            setTimeout(function () {
+                location.reload();
+            }, 10000)
+        }
+    </script>
+
+</body>
+
+</html>

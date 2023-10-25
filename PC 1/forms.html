@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="css/forms.css" media="screen">
+        <title>Jogo 5 - PC 1</title>
+        <meta http-equiv=”refresh”>
+    </head>
+    <style>
+        .btn{
+            color: white;
+            font-size: 20pt;
+            text-align: center;
+    
+        }
+    </style>
+    <body> 
+        <form>
+                <div class="campo">
+                    <p id="startButton" class="btn"><span id="countdown">120</span></p>
+                    <label><strong></strong></label>
+                    <input type="password" placeholder="Senha" name="login" id="login" required>
+                </div>   
+                 <button type="submit" onclick="logar(); return false" id="btn">Concluir </button>      
+                    
+        </form>
+
+
+        <script>
+             function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            const startButton = document.getElementById('startButton');
+
+            // Desativar o botão novamente para evitar cliques repetidos
+            startButton.disabled = true;
+
+            // Função para atualizar a contagem regressiva e reativar o botão quando atingir 0
+            function updateCountdown() {
+                let time = parseInt(countdownElement.innerText);
+                if (time > 0) {
+                    time--;
+                    countdownElement.innerText = time;
+                } else {
+                    location.href = "index.html"
+                    clearInterval(countdownInterval); // Parar a contagem regressiva quando atingir 0
+                    countdownElement.innerText = '!'; // Exibir uma mensagem
+                    startButton.disabled = false; // Reativar o botão
+                }
+            }
+
+            // Iniciar a contagem regressiva automaticamente
+            const countdownInterval = setInterval(updateCountdown, 1000); // Atualizar a cada segundo (1000 milissegundos)
+        }
+
+        // Iniciar a contagem regressiva automaticamente assim que a página for carregada
+        startCountdown();
+            function logar(){
+
+            var login = document.getElementById('login').value;
+
+            if ( login == "Digite a Senha aqui"){
+                location.href = "index2.html";
+            }
+            else{
+                location.href = "erro.html";
+            }
+        }
+        </script>
+    </body>
+</html>

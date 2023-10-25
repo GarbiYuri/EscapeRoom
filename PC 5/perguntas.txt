@@ -1,0 +1,44 @@
+const q1 = {
+    numQuestao   : 1,
+    pergunta     : "De onde é a invenção do chuveiro elétrico?",
+    alternativaA : "França",
+    alternativaB : "Inglaterra",
+    alternativaC : "Brasil",
+    correta      : "Brasil",
+}
+
+const q1 = {
+    numQuestao   : 1,
+    pergunta     : "Qual o livro mais vendido no mundo a seguir à Bíblia?",
+    alternativaA : "O Senhor dos Anéis",
+    alternativaB : "O Pequeno Príncipe",
+    alternativaC : "Dom Quixote",
+    correta      : "Dom Quixote",
+}
+
+const q1 = {
+    numQuestao   : 1,
+    pergunta     : "Qual foi o recurso utilizado inicialmente pelo homem para explicar a origem das coisas?",
+    alternativaA : "A Mitologia",'
+    alternativaB : "A Matemática",
+    alternativaC : "A Filosofia",
+    correta      : "A Mitologia",
+}
+
+const q1 = {
+    numQuestao   : 1,
+    pergunta     : "Quem foi o primeiro homem a pisar na Lua? Em que ano aconteceu?",
+    alternativaA : "Yuri Gagarin, em 1961",
+    alternativaB : "Charles Conrad, em 1969",
+    alternativaC : "Neil Armstrong, em 1969",
+    correta      : "Neil Armstrong, em 1969",
+}
+
+const q1 = {
+    numQuestao   : 1,
+    pergunta     : "Em que ano e quem foi eleito o primeiro presidente do Brasil?",
+    alternativaA : "1891, Deodoro da Fonseca",
+    alternativaB : "1890, Floriano Peixoto",
+    alternativaC : "1889, Hermes da Fonseca",
+    correta      : "1891, Deodoro da Fonseca",
+}

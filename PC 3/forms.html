@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="css/forms.css" media="screen">
+        <title>Jogo 5 - PC 3</title>
+        <meta http-equiv=”refresh”>
+    </head>
+
+    <body> 
+        <form>
+                <div class="campo">
+                    <label><strong></strong></label>
+                    <input type="password" placeholder="Senha" name="login" id="login" required>
+                </div>   
+                 <button type="submit" onclick="logar(); return false" id="btn">Concluir </button>      
+                    
+        </form>
+
+
+        <script>
+            function logar(){
+
+            var login = document.getElementById('login').value;
+
+            if ( login == "Digite a Senha aqui"){
+                location.href = "index.html";
+            }
+            else{
+                location.href = "erro.html";
+            }
+        }
+        </script>
+    </body>
+</html>
